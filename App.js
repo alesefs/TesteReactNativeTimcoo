@@ -33,18 +33,16 @@ export default class App extends React.Component {
         minDistance: 0,
         maxDistance: 100,
         mood: ["Muito Triste", "Triste", "Normal", "Feliz", "Muito Feliz"],
-        emoji: ["rage", "disappointed", "neutral_face", "blush", "grin"],
+        emoji: ["sob", "disappointed", "neutral_face", "blush", "grin"],
         backgroundColor: colorBackground(0),
     }
   }
 
   componentDidMount = () => {
             
-    console.log('distance', this.state.distance);
-
     AsyncStorage.getItem('distance', (err, value) => {
         if (err) {
-            console.log(err)
+            console.error(err)
         } else {
             if (value) {
               this.setState({ 
@@ -58,7 +56,6 @@ export default class App extends React.Component {
                 backgroundColor: colorBackground(value/25),
               });
             }
-            console.log('save', JSON.parse(value));
         }
     })
   }
