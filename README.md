@@ -25,7 +25,7 @@
  - ⌘R para atualizar
  - ⌘D para modo debug
  
- # Testes unitários:
+ # Testes unitários: *Não aplicável até o momento*
  - Feitos em jest
  >   npm test
  

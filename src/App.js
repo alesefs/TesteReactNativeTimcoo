@@ -8,7 +8,6 @@
 
 import React from 'react';
 import {
-  //StyleSheet,
   View,
   SafeAreaView,
   Text,
@@ -27,30 +26,29 @@ export default class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-        distance: 50,
-        minDistance: 0,
-        maxDistance: 100,
+        currrentValue: 50,
+        minCurrrentValue: 0,
+        maxCurrrentValue: 100,
         mood: ["Muito Triste", "Triste", "Normal", "Feliz", "Muito Feliz"],
         emoji: ["sob", "disappointed", "neutral_face", "blush", "grin"],
         backgroundColor: this.colorBackground(0),
     }
   }
 
-  componentDidMount = () => {
-            
-    AsyncStorage.getItem('distance', (err, value) => {
+  componentDidMount = () => {       
+    AsyncStorage.getItem('currrentValue', (err, value) => {
         if (err) {
             console.error(err)
         } else {
             if (value) {
               this.setState({ 
-                distance: parseInt(JSON.parse(value), 10),
+                currrentValue: parseInt(JSON.parse(value), 10),
                 backgroundColor: this.colorBackground(Math.round(parseInt(JSON.parse(value), 10)/25)),
               });
             } else {
               value = 50;
               this.setState({ 
-                distance: value,
+                currrentValue: value,
                 backgroundColor: this.colorBackground(value/25),
               });
             }
@@ -58,10 +56,10 @@ export default class App extends React.Component {
     })
   }
 
-  setDistance = (value) => {
-    AsyncStorage.setItem('distance', JSON.stringify(value))
+  setcurrrentValue = (value) => {
+    AsyncStorage.setItem('currrentValue', JSON.stringify(value))
     this.setState({ 
-      distance: value,
+      currrentValue: value,
     });
   }
 
@@ -71,34 +69,39 @@ export default class App extends React.Component {
       <>
         <SafeAreaView style={[styles.container, {backgroundColor: this.state.backgroundColor+55}]}>
 
+          {/* efeitos quadrados do background */}
           <View style={[styles.roundRectEffect, {backgroundColor: this.state.backgroundColor+88}]}/>
-
           <View style={[styles.roundRectEffect2, {backgroundColor: this.state.backgroundColor+88}]}/>
 
           <Text style={styles.title}>MEU HUMOR</Text>
 
           <View style={styles.centralize}>
+            {/* imagem do humor da pessoa */}
             <View style={[styles.roundRect, {backgroundColor: this.state.backgroundColor}]}>
               { this.displayImage() }
             </View>
 
+            {/* descritivos do humor da pessoa */}
             <View style={styles.mood}>
+              {/* textos do humor */}
               <Text style={styles.moodDescription}>
                 { this.displayMessage() }
               </Text>
+              {/* valor do slider */}
               <Text style={styles.moodPercent}>
-                {Math.round(this.state.distance)} %
+                {Math.round(this.state.currrentValue)} %
               </Text>
             </View>
 
+            {/* slider */}
             <Slider
                 style={{width:"80%"}} 
-                minimumValue={this.state.minDistance}
-                maximumValue={this.state.maxDistance}
-                value={this.state.distance}
-                //step={1}
+                minimumValue={this.state.minCurrrentValue}
+                maximumValue={this.state.maxCurrrentValue}
+                value={this.state.currrentValue}
+                step={1}
                 onValueChange={val => this.setState({ 
-                  distance: val,
+                  currrentValue: val,
                   backgroundColor: this.colorBackground(Math.round(val/25)),
                 })}
                 thumbTintColor='#263238'
@@ -107,7 +110,8 @@ export default class App extends React.Component {
               /> 
           </View>
           
-          <TouchableOpacity onPress = {() => { this.setDistance(Math.round(this.state.distance)) }}>
+          {/* botao */}
+          <TouchableOpacity onPress = {() => { this.setcurrrentValue(Math.round(this.state.currrentValue)) }}>
               <View style={styles.buttonSend}>
                   <Text style={styles.buttonSendTxt}>SALVAR</Text>
               </View>
@@ -118,17 +122,20 @@ export default class App extends React.Component {
     );
   }
 
+  //cores do background
   colorBackground = (value) => {
     let colors = ["#ef9a9a", "#ffccbc", "#fff59d", "#c8e6c9", "#81d4fa"];
     return colors[value];
   }
 
+  //emojis de humor
   displayImage = () => {
-    return <Emoji name={this.state.emoji[Math.round(this.state.distance/25)]} style={styles.emoji} />;
+    return <Emoji name={this.state.emoji[Math.round(this.state.currrentValue/25)]} style={styles.emoji} />;
   }
 
+  //texto do humor
   displayMessage = () => {
-    return `${(this.state.mood[Math.round(this.state.distance/25)]).toLocaleUpperCase()}`;
+    return `${(this.state.mood[Math.round(this.state.currrentValue/25)]).toLocaleUpperCase()}`;
   }
 
 };
