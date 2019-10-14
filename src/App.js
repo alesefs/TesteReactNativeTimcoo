@@ -8,21 +8,19 @@
 
 import React from 'react';
 import {
-  StyleSheet,
+  //StyleSheet,
   View,
   SafeAreaView,
   Text,
   TouchableOpacity,
 } from 'react-native';
 
+import styles from './App.styles';
+
 import Slider from '@react-native-community/slider';
 import Emoji from 'react-native-emoji';
 import AsyncStorage from '@react-native-community/async-storage';
 
-let colorBackground = (value) => {
-  let colors = ["#ef9a9a", "#ffccbc", "#fff59d", "#c8e6c9", "#81d4fa"];
-  return colors[value];
-}
 
 export default class App extends React.Component {
 
@@ -34,7 +32,7 @@ export default class App extends React.Component {
         maxDistance: 100,
         mood: ["Muito Triste", "Triste", "Normal", "Feliz", "Muito Feliz"],
         emoji: ["sob", "disappointed", "neutral_face", "blush", "grin"],
-        backgroundColor: colorBackground(0),
+        backgroundColor: this.colorBackground(0),
     }
   }
 
@@ -47,13 +45,13 @@ export default class App extends React.Component {
             if (value) {
               this.setState({ 
                 distance: parseInt(JSON.parse(value), 10),
-                backgroundColor: colorBackground(Math.round(parseInt(JSON.parse(value), 10)/25)),
+                backgroundColor: this.colorBackground(Math.round(parseInt(JSON.parse(value), 10)/25)),
               });
             } else {
               value = 50;
               this.setState({ 
                 distance: value,
-                backgroundColor: colorBackground(value/25),
+                backgroundColor: this.colorBackground(value/25),
               });
             }
         }
@@ -74,6 +72,8 @@ export default class App extends React.Component {
         <SafeAreaView style={[styles.container, {backgroundColor: this.state.backgroundColor+55}]}>
 
           <View style={[styles.roundRectEffect, {backgroundColor: this.state.backgroundColor+88}]}/>
+
+          <View style={[styles.roundRectEffect2, {backgroundColor: this.state.backgroundColor+88}]}/>
 
           <Text style={styles.title}>MEU HUMOR</Text>
 
@@ -99,7 +99,7 @@ export default class App extends React.Component {
                 //step={1}
                 onValueChange={val => this.setState({ 
                   distance: val,
-                  backgroundColor: colorBackground(Math.round(val/25)),
+                  backgroundColor: this.colorBackground(Math.round(val/25)),
                 })}
                 thumbTintColor='#263238'
                 maximumTrackTintColor='#cfd8dc' 
@@ -118,6 +118,11 @@ export default class App extends React.Component {
     );
   }
 
+  colorBackground = (value) => {
+    let colors = ["#ef9a9a", "#ffccbc", "#fff59d", "#c8e6c9", "#81d4fa"];
+    return colors[value];
+  }
+
   displayImage = () => {
     return <Emoji name={this.state.emoji[Math.round(this.state.distance/25)]} style={styles.emoji} />;
   }
@@ -126,72 +131,4 @@ export default class App extends React.Component {
     return `${(this.state.mood[Math.round(this.state.distance/25)]).toLocaleUpperCase()}`;
   }
 
-
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  roundRectEffect: {
-    width: "100%",
-    height: 400,
-    borderRadius: 50,
-    top: -25,
-    left: -150,
-    position: "absolute",
-  },
-  centralize: {
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 30,
-    fontSize: 20,
-    color: "#263238"
-  },
-  roundRect: {
-    width: 150,
-    height: 150,
-    borderRadius: 25,
-    top: -100,
-    alignItems:'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff88',
-  },
-  emoji: {
-    fontSize: 100, 
-  },
-  mood: {
-    marginHorizontal: "10%",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-    top: -50,
-  },
-  moodDescription: {
-    fontSize: 24,
-    color: "#263238",
-    width: "70%",
-    textAlign: 'left'
-  },
-  moodPercent: {
-    fontSize: 24,
-    color: "#263238",
-    width: "30%",
-    textAlign: 'right'
-  },
-  buttonSend: {
-    backgroundColor: '#263238', 
-    alignItems: 'center', 
-    justifyContent: 'center',
-    height: 60,
-  },
-  buttonSendTxt: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-});
