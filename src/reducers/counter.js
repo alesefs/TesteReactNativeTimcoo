@@ -1,5 +1,5 @@
 import * as types from '../actions/actionTypes';
-import {AsyncStorage} from "react-native";
+//import {AsyncStorage} from "react-native";
 
 const initialState = {
   count: 50,
