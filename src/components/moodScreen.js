@@ -4,12 +4,12 @@ import {
     SafeAreaView,
     Text,
     TouchableOpacity,
-  } from 'react-native';
+} from 'react-native';
   
-  import styles from './moodScreen.styles';
-  import Slider from '@react-native-community/slider';
-  import Emoji from 'react-native-emoji';
-  import { sliderValue } from '../actions/counterActions';
+import styles from './moodScreen.styles';
+import Slider from '@react-native-community/slider';
+import Emoji from 'react-native-emoji';
+// import AsyncStorage from '@react-native-community/async-storage';
 
 
   export default class Mood extends Component {
@@ -17,22 +17,7 @@ import {
       super(props);
     }
 
-    /*
-    componentWillMount() {
-        AsyncStorage.getItem('currrentValue', (err, value) => {
-            if (err) {
-                console.error(err)
-            } else {
-                if (value) {
-                    
-                } else {
-                    
-                }
-            }
-        })
-    }
-    */
-  
+
     render() {
         const { counter, sliderValue, saveInstance } = this.props;
         const format = value => value + '%';
@@ -48,7 +33,6 @@ import {
                     <View style={[styles.roundRectEffect2, {backgroundColor: counter.color[Math.floor(counter.count / 20)]+midColorOpacity }]}/>
 
                     <Text style={styles.title}>MEU HUMOR</Text>
-
 
                     <View style={styles.centralize}>
                         {/* imagem do humor da pessoa */}

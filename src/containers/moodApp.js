@@ -5,17 +5,35 @@ import {bindActionCreators} from 'redux';
 import Mood from '../components/moodScreen';
 import * as counterActions from '../actions/counterActions';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
-// @connect(state => ({
-//   state: state.counter
-// }))
+
 class MoodApp extends Component {
   constructor(props) {
     super(props);
   }
 
+  // componentDidMount = () => {
+  //   AsyncStorage.getItem('users', (err, value) => {
+  //     if (err) {
+  //         console.error(err)
+  //     } else {
+  //         if (value !== null) {
+  //           this.setState({ 
+  //             currrentValue: parseInt(value, 10),
+  //           });
+
+  //           this.props.state.count = this.state.currrentValue;
+  //           console.log("valueINSIDE", this.props.state.count);
+
+  //         }
+  //     }
+  //   })
+  // }
+
   render() {
     const { state, actions } = this.props;
+
     return (
       <Mood
         counter={{
@@ -31,6 +49,7 @@ class MoodApp extends Component {
     );
   }
 }
+
 
 export default connect(state => ({
     state: state.counter
